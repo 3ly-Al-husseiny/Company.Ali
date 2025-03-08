@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Company.Ali.DAL.Data.Contexts
 {
-    class CompanyDbContext : DbContext
+    public class CompanyDbContext : DbContext
     {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
