@@ -30,7 +30,7 @@ namespace Company.Ali.BLL.Repositories
             return _context.SaveChanges();
         }
 
-        public Department? Get(int id)
+        public Department Get(int id)
         {
             return _context.Departments.Find(id);
         }
