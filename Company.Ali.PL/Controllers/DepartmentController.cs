@@ -52,7 +52,7 @@ namespace Company.Ali.PL.Controllers
 
 
         [HttpGet]
-        public IActionResult Details(int? id)
+        public IActionResult Details(int? id , string viewName = "Details")
         {
             if (id is null) return BadRequest("Invalid Id");
             else
@@ -68,7 +68,7 @@ namespace Company.Ali.PL.Controllers
                     Name = department.Name,
                     CreateAt = department.CreateAt
                 };
-                return View(model);
+                return View(viewName,model);
             }
         }
 
@@ -79,12 +79,16 @@ namespace Company.Ali.PL.Controllers
         public IActionResult Edit(int? id)
         {
 
-            if (id is null) return BadRequest("Invalid ID");
+            //if (id is null) return BadRequest("Invalid ID");
 
-            var department = _departmentRepository.Get(id.Value);
-            if (department is null) return NotFound(new { statusCode = 404, message = $"Department With Id: {id} is not Found" });
-            return View(department);
+            //var department = _departmentRepository.Get(id.Value);
+            //if (department is null) return NotFound(new { statusCode = 404, message = $"Department With Id: {id} is not Found" });
+
+            return Details(id , "Edit");
         }
+        
+
+        // -----------
 
 
 
@@ -112,11 +116,12 @@ namespace Company.Ali.PL.Controllers
         public IActionResult Delete(int? id)
         {
 
-            if (id is null) return BadRequest("Invalid ID");
+            //if (id is null) return BadRequest("Invalid ID");
 
-            var department = _departmentRepository.Get(id.Value);
-            if (department is null) return NotFound(new { statusCode = 404, message = $"Department With Id: {id} is not Found" });
-            return View(department);
+            //var department = _departmentRepository.Get(id.Value);
+            //if (department is null) return NotFound(new { statusCode = 404, message = $"Department With Id: {id} is not Found" });
+           
+            return Details(id , "Delete");
         }
 
         [HttpPost]
