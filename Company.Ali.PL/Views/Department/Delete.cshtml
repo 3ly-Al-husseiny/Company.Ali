@@ -1,6 +1,7 @@
-﻿@model Company.Ali.PL.DTOs.CreateDepartmentDto
+﻿@model Company.Ali.DAL.Models.Department
 @{
     Layout = null;
+    ViewData["Title"] = "Delete";
 }
 
 <!DOCTYPE html>
@@ -9,10 +10,10 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <title>Details</title>
+    <title>Delete</title>
 </head>
 <body>
-    <div>
+    <form asp-action="Delete" method="post">
         <div class="form-group">
             <label asp-for="Code" class="col-form-label"></label>
             <input readonly asp-for="Code" class="form-control" />
@@ -27,9 +28,8 @@
             <label asp-for="CreateAt" class="col-form-label"></label>
             <input readonly asp-for="CreateAt" class="form-control" />
         </div>
-
-        <a asp-controller="Department" asp-action="Edit" class="btn btn-warning">Edit</a>
+        <input type="submit" value="Delete" class="btn btn-danger" />
         <a asp-controller="Department" asp-action="Index" class="btn btn-light">Back To List</a>
-    </div>
+    </form>
 </body>
 </html>
