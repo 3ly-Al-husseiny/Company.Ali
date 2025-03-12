@@ -14,6 +14,7 @@ namespace Company.Ali.PL
             // Add services to the container.
             builder.Services.AddControllersWithViews(); // Rigester Built-in MVC services 
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>(); // Allow DI For DepartmentRepository
+            builder.Services.AddScoped<IEmployeeRepository,EmployeeRepository>(); // Allow DI For DepartmentRepository
             builder.Services.AddDbContext<CompanyDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
