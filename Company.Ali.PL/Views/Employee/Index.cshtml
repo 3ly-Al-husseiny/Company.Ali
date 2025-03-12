@@ -51,21 +51,7 @@
                         <th>@employee.IsDeleted</th>
                         <th>@employee.HiringDate)</th>
                         <th>@employee.CreateAt)</th>
-                        <td>
-                            <a asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id" class="btn btn-warning">
-                                <i class="fas fa-eye"></i> Details
-                            </a>
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-success">
-                                <i class="fas fa-edit"></i> Update
-                            </a>
-                        </td>
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">
-                                <i class="fas fa-trash"></i> Delete
-                            </a>
-                        </td>
+                        <partial name="_PartialView" model="@employee.Id"/>
                     </tr>
                 }
             </tbody>

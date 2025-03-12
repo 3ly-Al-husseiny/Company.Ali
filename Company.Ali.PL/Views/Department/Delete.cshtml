@@ -14,20 +14,7 @@
 </head>
 <body>
     <form asp-action="Delete" method="post">
-        <div class="form-group">
-            <label asp-for="Code" class="col-form-label"></label>
-            <input readonly asp-for="Code" class="form-control" />
-            <span asp-validation-for="Code" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Name" class="col-form-label"></label>
-            <input readonly asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CreateAt" class="col-form-label"></label>
-            <input readonly asp-for="CreateAt" class="form-control" />
-        </div>
+        <partial name="DepartmentPartialViews/_DetailsDeletePartialView" />
         <input type="submit" value="Delete" class="btn btn-danger" />
         <a asp-controller="Department" asp-action="Index" class="btn btn-light">Back To List</a>
     </form>

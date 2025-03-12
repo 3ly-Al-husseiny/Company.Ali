@@ -16,8 +16,7 @@ namespace Company.Ali.PL.DTOs
         [DataType(DataType.EmailAddress, ErrorMessage ="Email is not valid !!")]
         public string Email { get; set; }
 
-        [RegularExpression(@"[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{4,10}-[a-zA-Z]{5,10}$"
-                                    , ErrorMessage = "Address must be like 123-street-city-country")]
+        [RegularExpression(@"^[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{4,10}-[a-zA-Z]{5,10}$", ErrorMessage = "Address must be like 123-street-city-country")]
         public string Address { get; set; }
 
         [Phone]
