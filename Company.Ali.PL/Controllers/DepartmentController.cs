@@ -61,14 +61,15 @@ namespace Company.Ali.PL.Controllers
                 if (department is null) return NotFound(new { statusCode = 404, message = $"Department With Id: {id} is not Found" });
 
 
-                // Manual Mapping from Department to CreateDepartmentDto
-                var model = new CreateDepartmentDto()
-                {
-                    Code = department.Code,
-                    Name = department.Name,
-                    CreateAt = department.CreateAt
-                };
-                return View(viewName,model);
+                //// Manual Mapping from Department to CreateDepartmentDto
+                //var model = new CreateDepartmentDto()
+                //{
+                //    Code = department.Code,
+                //    Name = department.Name,
+                //    CreateAt = department.CreateAt
+                //};
+
+                return View(viewName,department);
             }
         }
 
@@ -84,29 +85,47 @@ namespace Company.Ali.PL.Controllers
             //var department = _departmentRepository.Get(id.Value);
             //if (department is null) return NotFound(new { statusCode = 404, message = $"Department With Id: {id} is not Found" });
 
-            return Details(id , "Edit");
+            //return Details(id , "Edit");
+
+            if (id is null) return BadRequest("Invalid Id");
+            var department = _departmentRepository.Get(id.Value);
+            if (department is null) return NotFound(new { statusCode = 404, message = $"Department With Id: {id} is not found" });
+            var model = new CreateDepartmentDto()
+            {
+                Name = department.Name,
+                Code = department.Code,
+                CreateAt = department.CreateAt,
+            };
+            return View(model);
         }
         
 
-        // -----------
+        
 
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int? id, Department department)
+        public IActionResult Edit(int id, CreateDepartmentDto model)
         {
             if (ModelState.IsValid)
             {
-                if (id is null) return BadRequest("Invalid ID");
-                if (department is null) return NotFound(new { statusCode = 404, message = $"Department With Id: {id} is not Found" });
+                //if (id != model.Id) return BadRequest(); //
+
+                var department = new Department()
+                {
+                    Code = model.Code,
+                    Name = model.Name,
+                    CreateAt = model.CreateAt,
+                    Id = id
+                };
                 var count = _departmentRepository.Update(department);
                 if (count > 0)
-                { 
+                {
                     return RedirectToAction(nameof(Index));
                 }
             }
-            return View(department);
+            return View(model);
         }
 
 

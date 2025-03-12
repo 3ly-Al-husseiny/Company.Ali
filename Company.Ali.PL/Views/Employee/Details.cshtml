@@ -13,56 +13,8 @@
 </head>
 <body>
     <div>
-        <div class="form-group">
-            <label asp-for="Name" class="col-form-label"></label>
-            <input asp-for="Name" class="form-control" readonly/>
-        </div>
 
-        <div class="form-group">
-            <label asp-for="Age" class="col-form-label"></label>
-            <input asp-for="Age" class="form-control" readonly/>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Email" class="col-form-label"></label>
-            <input asp-for="Email" class="form-control"  readonly/>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Address" class="col-form-label"></label>
-            <input asp-for="Address" class="form-control" readonly />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Phone" class="col-form-label"></label>
-            <input asp-for="Phone" class="form-control" readonly />
-        </div>
-
-        <div class="form-group">
-            <input asp-for="IsActive" class="form-check" disabled />
-            <label asp-for="IsActive" class="col-form-label"></label>
-        </div>
-
-        <div class="form-group">
-            <input asp-for="IsDeleted" class="form-check" disabled />
-            <label asp-for="IsDeleted" class="col-form-label"></label>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Salary" class="col-form-label"></label>
-            <input asp-for="Salary" class="form-control" readonly />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="HiringDate" class="col-form-label"></label>
-            <input asp-for="HiringDate" class="form-control" readonly />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="CreateAt" class="col-form-label"></label>
-            <input asp-for="CreateAt" class="form-control" readonly />
-        </div>
-
+        <partial name="EmployeePartialViews/_DetailsDeletePartialView" />
         <a asp-controller="Employee" asp-action="Edit" asp-route-id = "@Model.Id" class="btn btn-warning">Edit</a>
         <a asp-controller="Employee" asp-action="Index" class="btn btn-light">Back To List</a>
     </div>
