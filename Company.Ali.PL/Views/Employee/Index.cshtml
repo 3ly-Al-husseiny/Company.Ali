@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<Company.Ali.DAL.Models.Employee>
 @{
     // Layout = null;
+    ViewData["Title"] = "Index";
+    // ViewDate["Message"]; Invalid as it will return an object.
+    string? ViewDataMessage = ViewData["Message"] as string; // Safety Code
 }
 
 <!DOCTYPE html>
@@ -12,6 +15,44 @@
     <title>Index</title>
 </head>
 <body>
+
+
+    <h1>All Employees</h1>
+    <br />
+    <br />
+
+    @* <div class="m-3 alert alert-danger">
+        <p>@ViewData["Message"]<p/>
+    </div>
+     *@
+
+    @* <div class="m-3 alert alert-danger">
+        <p>@ViewDataMessage<p/>
+    </div> *@
+
+
+    @if (!string.IsNullOrEmpty(TempData["Message"] as string))
+    {
+        <div class="m-3 alert alert-danger">
+            <p>@ViewDataMessage<p/>
+        </div> 
+    }
+
+
+
+    <form>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <input placeholder="Search By Name" name="SearchInput" class="form-control"/>
+            </div>
+            <div class="col-6">
+                <input type="submit" class="btn btn-success" value="Search" />
+            </div>
+        </div>
+    </div>
+    </form>
+
 
     <a asp-controller="Employee" asp-action="Create" class="btn btn-primary">Create Employee</a>
     <br />
@@ -32,6 +73,7 @@
                     <th>IsDeleted</th>
                     <th>@Html.DisplayNameFor(E => E.HiringDate)</th>
                     <th>@Html.DisplayNameFor(E => E.CreateAt)</th>
+                    <th>Department Name</th>
                     <th>Details</th>
                     <th>Update</th>
                     <th>Delete</th>
@@ -41,16 +83,20 @@
                 @foreach (var employee in Model)
                 {
                     <tr>
-                        <th>@employee.Name</th>
-                        <th>@employee.Age</th>
-                        <th>@employee.Email</th>
-                        <th>@employee.Address</th>
-                        <th>@employee.Phone</th>
-                        <th>@employee.Salary</th>
-                        <th>@employee.IsActive</th>
-                        <th>@employee.IsDeleted</th>
-                        <th>@employee.HiringDate)</th>
-                        <th>@employee.CreateAt)</th>
+                        <td>@employee.Name</td>
+                        <td>@employee.Age</td>
+                        <td>@employee.Email</td>
+                        <td>@employee.Address</td>
+                        <td>@employee.Phone</td>
+                        <td>@employee.Salary</td>
+                        <td>@employee.IsActive</td>
+                        <td>@employee.IsDeleted</td>
+                        <td>@employee.HiringDate)</td>
+                        <td>@employee.CreateAt)</td>
+                        @if(employee.Department is null){
+                            <td>No Department</td>}
+                        else{
+                            <td>@employee.Department.Name</td>}
                         <partial name="_PartialView" model="@employee.Id"/>
                     </tr>
                 }

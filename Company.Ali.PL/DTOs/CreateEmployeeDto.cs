@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -32,5 +33,8 @@ namespace Company.Ali.PL.DTOs
 
         [DisplayName("Date of Creation")]
         public DateTime CreateAt { get; set; }
+
+        [DisplayName("Department")]
+        public int? DepartmentId { get; set; }
     }
 }

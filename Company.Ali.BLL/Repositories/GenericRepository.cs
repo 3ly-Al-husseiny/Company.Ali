@@ -1,5 +1,7 @@
 ﻿using Company.Ali.BLL.Interfaces;
 using Company.Ali.DAL.Data.Contexts;
+using Company.Ali.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,12 +17,20 @@ namespace Company.Ali.BLL.Repositories
 
         public IEnumerable<T> GetAll()
         {
+            if (typeof(T) == typeof(Employee)) 
+            {
+                return (IEnumerable<T>)_context.Employees.Include(E => E.Department).ToList();
+            }
             return _context.Set<T>().ToList();
         }
 
         public T? Get(int id)
         {
-            return _context.Set<T>().Find(id);
+            if (typeof(T) == typeof(Employee))
+            {
+                return _context.Employees.Include(E => E.Department).FirstOrDefault(E => E.Id == id) as T;
+            }
+            return _context.Set<T>().Find();
         }
 
         public int Update(T model)

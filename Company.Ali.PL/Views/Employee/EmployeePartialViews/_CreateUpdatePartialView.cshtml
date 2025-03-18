@@ -1,4 +1,6 @@
-﻿@model Company.Ali.PL.DTOs.CreateEmployeeDto
+﻿@using Company.Ali.DAL.Models
+@model Company.Ali.PL.DTOs.CreateEmployeeDto
+
 <div class="form-group">
     <label asp-for="Name" class="col-form-label"></label>
     <input asp-for="Name" class="form-control" />
@@ -8,7 +10,7 @@
 <div class="form-group">
     <label asp-for="Age" class="col-form-label"></label>
     <input asp-for="Age" class="form-control" />
-    <span asp-validation-for="Salary" class="text-danger"></span>
+    <span asp-validation-for="Age" class="text-danger"></span>
 </div>
 
 <div class="form-group">
@@ -29,15 +31,15 @@
     <span asp-validation-for="Phone" class="text-danger"></span>
 </div>
 
-<div class="form-group">
+<div class="form-group form-check">
     <input asp-for="IsActive" class="form-check" />
-    <label asp-for="IsActive" class="col-form-label"></label>
+    <label asp-for="IsActive" class="form-check-label"></label>
     <span asp-validation-for="IsActive" class="text-danger"></span>
 </div>
 
-<div class="form-group">
+<div class="form-group form-check">
     <input asp-for="IsDeleted" class="form-check" />
-    <label asp-for="IsDeleted" class="col-form-label"></label>
+    <label asp-for="IsDeleted" class="form-check-label"></label>
     <span asp-validation-for="IsDeleted" class="text-danger"></span>
 </div>
 
@@ -57,6 +59,14 @@
     <label asp-for="CreateAt" class="col-form-label"></label>
     <input asp-for="CreateAt" class="form-control" />
     <span asp-validation-for="CreateAt" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="DepartmentId" class="control-label"></label>
+    <select asp-for="DepartmentId" class="form-control" asp-items="@(new SelectList(ViewData["departments"] as IEnumerable<Company.Ali.DAL.Models.Department>, "Id", "Name"))">
+        <option value="null">--Select Department--</option>
+    </select>
+    <span asp-validation-for="DepartmentId" class="text-danger"></span>
 </div>
 
 @section ValidationSection

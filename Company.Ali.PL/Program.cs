@@ -1,6 +1,9 @@
+using AutoMapper;
 using Company.Ali.BLL.Interfaces;
 using Company.Ali.BLL.Repositories;
 using Company.Ali.DAL.Data.Contexts;
+using Company.Ali.PL.Mapping;
+using Company.Ali.PL.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.Ali.PL
@@ -19,7 +22,25 @@ namespace Company.Ali.PL
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             }); // Allow DI For CompanyDbContext
+
+            // Life Time 
+            // builder.Services.AddScoped();    Create Object Life Time Per Request - UnReachable Object
+            // builder.Services.AddTransient(); Create Object Life Time Per Operation
+            // builder.Services.AddSingleton(); Create Object Life Time Per APP
+
+
+            builder.Services.AddScoped<IScopedService, ScopedService>(); // Per Request
+            builder.Services.AddTransient<ITransientService, TransientService>(); // Per Operation 
+            builder.Services.AddSingleton<ISingltonServices, SingltonServices>(); // Per APP
+
+
+            // Register the Service For Mapping 
+            // The Best Life Time for the mapping is the Transient
+            builder.Services.AddAutoMapper(typeof(EmployeeProfile));
+
+
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
