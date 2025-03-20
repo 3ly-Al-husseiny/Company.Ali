@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Company.Ali.DAL.Models
 {
-    public class Employee : BaseEntity
+    public class Employee : BaseEntity 
     {
         public string Name { get; set; }
         public int? Age { get; set; }
@@ -21,5 +21,6 @@ namespace Company.Ali.DAL.Models
         public DateTime CreateAt { get; set; }
         public int? DepartmentId { get; set; }
         public Department? Department { get; set; }
+        public string? ImageName { get; set; }
     }
 }

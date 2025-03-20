@@ -10,10 +10,10 @@ namespace Company.Ali.BLL.Interfaces
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {
-        IEnumerable<T> GetAll();
-        T? Get(int id);
-        int Add(T model);
-        int Update(T model);
-        int Delete(T model);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetAsync(int id);
+        Task AddAsync(T model);
+        void Update(T model);
+        void Delete(T model);
     }
 }

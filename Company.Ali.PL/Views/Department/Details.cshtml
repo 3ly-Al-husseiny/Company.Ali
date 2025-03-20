@@ -14,7 +14,7 @@
 <body>
     <div>
         <partial name="DepartmentPartialViews/_DetailsDeletePartialView" />
-        <a asp-controller="Department" asp-action="Edit" class="btn btn-warning">Edit</a>
+        <a asp-controller="Department" asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.Id">Edit</a>
         <a asp-controller="Department" asp-action="Index" class="btn btn-light">Back To List</a>
     </div>
 </body>

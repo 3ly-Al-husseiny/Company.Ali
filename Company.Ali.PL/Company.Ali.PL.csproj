@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Company.Ali.DAL\Company.Ali.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\files\images\" />
+  </ItemGroup>
+
 </Project>

@@ -3,6 +3,7 @@ using Company.Ali.DAL.Data.Contexts;
 using Company.Ali.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Company.Ali.BLL.Repositories
 {
@@ -15,9 +16,9 @@ namespace Company.Ali.BLL.Repositories
         }
 
         // Search Logic 
-        public List<Employee>? GetByName(string name)
+        public async Task<List<Employee>?> GetByNameAsync(string name)
         {
-           return _context.Employees.Include(E => E.Department).Where(E => E.Name.ToLower().Contains(name.ToLower())).ToList();
+           return await _context.Employees.Include(E => E.Department).Where(E => E.Name.ToLower().Contains(name.ToLower())).ToListAsync();
         }
     }
 }
