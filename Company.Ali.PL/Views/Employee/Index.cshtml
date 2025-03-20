@@ -63,6 +63,7 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Age</th>
                     <th>Email</th>
@@ -83,6 +84,9 @@
                 @foreach (var employee in Model)
                 {
                     <tr>
+                        <td>
+                            <img src="~/files/images/@employee.ImageName" alt="@employee.Name" class="img-fluid rounded-circle" />
+                        </td>
                         <td>@employee.Name</td>
                         <td>@employee.Age</td>
                         <td>@employee.Email</td>

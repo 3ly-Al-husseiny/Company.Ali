@@ -1,4 +1,5 @@
 using AutoMapper;
+using Company.Ali.BLL;
 using Company.Ali.BLL.Interfaces;
 using Company.Ali.BLL.Repositories;
 using Company.Ali.DAL.Data.Contexts;
@@ -37,6 +38,9 @@ namespace Company.Ali.PL
             // Register the Service For Mapping 
             // The Best Life Time for the mapping is the Transient
             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
+
+            // Register the Service For the UnitOfWord Design pattern 
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             var app = builder.Build();

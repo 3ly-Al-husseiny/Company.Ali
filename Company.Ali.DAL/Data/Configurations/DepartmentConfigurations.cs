@@ -1,19 +1,28 @@
 ﻿using Company.Ali.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Company.Ali.DAL.Data.Configurations
 {
-    public class DepartmentConfigurations : IEntityTypeConfiguration<Department>
+    class DepartmentConfigurations : IEntityTypeConfiguration<Department>
     {
         public void Configure(EntityTypeBuilder<Department> builder)
         {
-            builder.Property(D => D.Id).UseIdentityColumn(10, 10);
+            builder.Property(d => d.Code)
+                   .IsRequired()
+                   .HasMaxLength(50);
+
+            builder.Property(d => d.Name)
+                   .IsRequired()
+                   .HasMaxLength(100);
+
+            builder.Property(d => d.CreateAt)
+                   .IsRequired();
+
+            builder.HasMany(d => d.Employees)
+                   .WithOne(e => e.Department)
+                   .HasForeignKey(e => e.DepartmentId)
+                   .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
