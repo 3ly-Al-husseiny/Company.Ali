@@ -3,11 +3,13 @@ using Company.Ali.BLL.Interfaces;
 using Company.Ali.DAL.Models;
 using Company.Ali.PL.DTOs;
 using Company.Ali.PL.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Company.Ali.PL.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         //private readonly IEmployeeRepository _employeeRepository;
