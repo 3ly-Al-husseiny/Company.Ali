@@ -2,6 +2,7 @@
 using Company.Ali.BLL.Repositories;
 using Company.Ali.DAL.Models;
 using Company.Ali.PL.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using Microsoft.IdentityModel.Abstractions;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Company.Ali.PL.Controllers
 {
+    [Authorize]
     // MVC Controller
     public class DepartmentController : Controller
     {

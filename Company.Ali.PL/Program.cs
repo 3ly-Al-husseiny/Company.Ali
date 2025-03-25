@@ -3,8 +3,10 @@ using Company.Ali.BLL;
 using Company.Ali.BLL.Interfaces;
 using Company.Ali.BLL.Repositories;
 using Company.Ali.DAL.Data.Contexts;
+using Company.Ali.DAL.Models;
 using Company.Ali.PL.Mapping;
 using Company.Ali.PL.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.Ali.PL
@@ -43,6 +45,18 @@ namespace Company.Ali.PL
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
+            // Register The Service of Dependency Injection for Identity 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                            .AddEntityFrameworkStores<CompanyDbContext>();
+
+
+
+            builder.Services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = "/Account/SignIn";
+            });
+
+
             var app = builder.Build();
 
 
@@ -54,10 +68,21 @@ namespace Company.Ali.PL
                 app.UseHsts();
             }
 
+
+            // Use Authentication MiddleWare
+
+            
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+
+            // Use Authorization MiddleWare
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
