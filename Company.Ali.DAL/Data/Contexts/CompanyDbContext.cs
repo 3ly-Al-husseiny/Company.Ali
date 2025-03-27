@@ -23,8 +23,10 @@ namespace Company.Ali.DAL.Data.Contexts
         {
             modelBuilder.Entity<IdentityUserLogin<string>>().HasNoKey();
             modelBuilder.Entity<IdentityUserToken<string>>().HasNoKey();
-            modelBuilder.Entity<IdentityUserRole<string>>().HasNoKey();
+            // Correct way to define the composite key for IdentityUserRole
+            modelBuilder.Entity<IdentityUserRole<string>>().HasKey(i => new { i.UserId, i.RoleId });
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+           
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

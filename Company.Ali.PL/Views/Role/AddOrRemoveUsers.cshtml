@@ -1,0 +1,23 @@
+﻿@model List<Company.Ali.PL.DTOs.UsersInRoleViewModel>
+@{
+    ViewData["Title"] = "Add Or Remove Users";
+    var roleId = ViewData["roleId"] as string;
+}
+
+
+<form  asp-action="AddOrRemoveUsers"  method="post" asp-route-roleId ="@roleId">
+@for (int i = 0; i < Model.Count; i++)
+{
+    <div class="form-group">
+        <input asp-for="@Model[i].IsSelected" />
+        <label asp-for="@Model[i].IsSelected"> @Model[i].UserName </label>
+    </div>
+
+    <input type="hidden" asp-for="@Model[i].UserId" />
+    <input type="hidden" asp-for="@Model[i].UserName"/>
+}
+
+<input type="submit" value="Save Changes" class="btn btn-success"/>
+<a asp-action="Index"  class="btn btn-light">Cancel</a>
+</form>
+

@@ -1,0 +1,12 @@
+﻿@model Company.Ali.PL.DTOs.UserDto
+
+<h2>Edit User</h2>
+
+<form asp-action="Edit"  enctype="multipart/form-data" method="post" >
+    <partial name="EmployeePartialViews/_CreateUpdatePartialView" />
+    <button type="submit" value="Edit" class="btn btn-primary" as-rout-id="@Model.Id">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+
+

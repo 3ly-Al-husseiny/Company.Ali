@@ -1,0 +1,24 @@
+﻿@model Company.Ali.PL.DTOs.RoleDto
+@{
+    Layout = null;
+    ViewData["Title"] = "Delete";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>Delete</title>
+</head>
+<body>
+    <form asp-action="Delete" method="post">
+
+        <partial name="EmployeePartialViews/_DetailsDeletePartialView" />
+
+        <input type="submit" value="Delete" class="btn btn-danger" asp-route-id="@Model.Id.ToString()" />
+        <a asp-controller="Role" asp-action="Index" class="btn btn-light">Back To List</a>
+    </form>
+</body>
+</html>

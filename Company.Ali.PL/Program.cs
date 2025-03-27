@@ -47,7 +47,8 @@ namespace Company.Ali.PL
 
             // Register The Service of Dependency Injection for Identity 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<CompanyDbContext>();
+                            .AddEntityFrameworkStores<CompanyDbContext>()
+                            .AddDefaultTokenProviders();
 
 
 
