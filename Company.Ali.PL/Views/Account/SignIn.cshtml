@@ -13,14 +13,15 @@
             <input class="text" asp-for="Password" placeholder="Password" required="">
             <div class="wthree-text">
                 <label class="anim">
-                    <input asp-for="RememberMe" class="checkbox" required="">
+                    <input asp-for="RememberMe" class="checkbox" >
                     <span>Remember Me</span>
                 </label>
                 <div class="clear"> </div>
             </div>
             <input type="submit" value="SIGN">
         </form>
-        <p> If you Don't have an account , <a asp-action="SignUp"> Create one Now!</a> </p>
+            <p> If you Don't have an account , <a asp-action="SignUp"> Create one Now!</a> </p>
+            <p><a asp-action="ResetPassword" asp-route-email="@Model.Email">Resest Your Password !</a></p>
     </div>
 </div>
 

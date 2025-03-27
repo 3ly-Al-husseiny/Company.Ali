@@ -1,0 +1,18 @@
+﻿@model Company.Ali.PL.DTOs.RoleDto
+
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<h2>Create Employee</h2>
+
+<form asp-action="Create"  enctype="multipart/form-data">
+
+    <partial name="EmployeePartialViews/_CreateUpdatePartialView" />
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
