@@ -1,15 +1,13 @@
-﻿@model Company.Ali.DAL.Models.Employee
+﻿@model Company.Ali.PL.DTOs.CreateEmployeeDto
+@{
+    int? id = ViewData["Id"] as int?;
+}
 
 <h2>Edit Employee</h2>
 
-<form asp-action="Edit"  enctype="multipart/form-data">
-
-
+<form asp-action="Edit" enctype="multipart/form-data" asp-route-id="@id">
     <partial name="EmployeePartialViews/_CreateUpdatePartialView" />
-    <input asp-for="ImageName" hidden/>
-    <button type="submit" value="Edit" class="btn btn-primary" as-rout-id="@Model.Id">Update</button>
+    <input asp-for="ImageName" hidden />
+    <button type="submit" value="Edit" class="btn btn-primary">Update</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
-
-
-

@@ -118,10 +118,13 @@ namespace Company.Ali.PL.Controllers
             //return Details(id, "Edit");
             var departments = await _unitOfWork.DepartmentRepository.GetAllAsync();
             ViewData["departments"] = departments;
+            ViewData["Id"] = id;
+
 
             if (id is null) return BadRequest("Invalid Id");
             var employee = await _unitOfWork.EmployeeRepository.GetAsync(id.Value);
             if (employee is null) return NotFound(new { statusCode = 404, message = $"Employee With Id: {id} is not found" });
+           //---------------------------------------------------------------
             var model = new CreateEmployeeDto()
             {
                 Name = employee.Name,
@@ -138,6 +141,7 @@ namespace Company.Ali.PL.Controllers
                 ImageName = employee.ImageName
                 
             };
+            //---------------------------------------------------------------------
 
             // Auto Mapper 
             //var model = _mapper.Map<CreateEmployeeDto>(employee);
@@ -152,7 +156,7 @@ namespace Company.Ali.PL.Controllers
         {
             var departments = _unitOfWork.DepartmentRepository.GetAllAsync();
             ViewData["departments"] = departments;
-
+            ViewData["Id"] = id;
             if (ModelState.IsValid)
             {
                 //if (id != model.Id) return BadRequest(); //
@@ -206,8 +210,14 @@ namespace Company.Ali.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete([FromRoute] int id, Employee employee)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            var employee = await _unitOfWork.EmployeeRepository.GetAsync(id);
+            if (employee == null)
+            {
+                return NotFound(new { statusCode = 404, message = $"Employee With Id: {id} is not found" });
+            }
+
             _unitOfWork.EmployeeRepository.Delete(employee);
             var count = await _unitOfWork.Complete();
             if (count > 0)
@@ -218,8 +228,10 @@ namespace Company.Ali.PL.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(employee);
         }
+
 
 
 

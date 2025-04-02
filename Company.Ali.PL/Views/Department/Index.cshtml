@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Company.Ali.DAL.Models.Department>
 @{
-    Layout = null;
+
 }
 
 <!DOCTYPE html>
@@ -37,7 +37,7 @@
                         <td>@department.Code</td>
                         <td>@department.Name</td>
                         <td>@department.CreateAt</td>
-                        <partial name="_PartialView" model="@department.Id" />
+                        <partial name="_PartialView" model="@department.Id.ToString()" />
                     </tr>
                 }
             </tbody>

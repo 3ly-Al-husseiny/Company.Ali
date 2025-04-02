@@ -101,7 +101,7 @@
                             <td>No Department</td>}
                         else{
                             <td>@employee.Department.Name</td>}
-                        <partial name="_PartialView" model="@employee.Id"/>
+                        <partial name="_PartialView" model="@employee.Id.ToString()"/>
                     </tr>
                 }
             </tbody>
