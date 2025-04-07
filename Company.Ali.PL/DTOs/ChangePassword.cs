@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+// Change Password DTO file
+using System.ComponentModel.DataAnnotations;
 
 namespace Company.Ali.PL.DTOs
 {
