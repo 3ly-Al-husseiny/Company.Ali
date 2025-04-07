@@ -1,4 +1,4 @@
-﻿@model Company.Ali.PL.DTOs.SignInDto
+@model Company.Ali.PL.DTOs.SignInDto
 @{
     ViewData["Title"] = "SignIn";
     Layout = "~/Views/Shared/_AuthView.cshtml";
@@ -20,7 +20,12 @@
             </div>
             <input type="submit" value="SIGN">
         </form>
-            <p> If you Don't have an account , <a asp-action="SignUp"> Create one Now!</a> </p>
+       
+         <a asp-action="GoogleLogin" style="display:block; margin:0 auto; text-align:center; color:white; width 50%;">Login With Google Account</a>
+        <br />
+        <a asp-action="FacebookLogin" style="display:block; margin:0 auto; text-align:center; color:white; width 50%;">Login With Facebook Account</a>
+        <br />
+        <p> If you Don't have an account , <a asp-action="SignUp"> Create one Now!</a> </p>
             <p><a asp-action="ResetPassword" asp-route-email="@Model.Email">Resest Your Password !</a></p>
     </div>
 </div>
