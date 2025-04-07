@@ -1,8 +1,14 @@
-﻿using Company.Ali.DAL.Models;
+using Company.Ali.DAL.Models;
 using Company.Ali.PL.DTOs;
 using Company.Ali.PL.Helpers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Cms;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Company.Ali.PL.Controllers
@@ -11,10 +17,13 @@ namespace Company.Ali.PL.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IMailService _mailService;
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMailService mailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mailService = mailService;
+
         }
 
         #region SignUp
@@ -142,7 +151,7 @@ namespace Company.Ali.PL.Controllers
                     var email = new Email()
                     {
                         To = model.Email,
-                        Subject = "Reset Vodafone Password",
+                        Subject = "Reset Your Password",
                         Body = url
 
                     };
@@ -150,13 +159,17 @@ namespace Company.Ali.PL.Controllers
 
 
 
-                    // Send Email 
-                    var flag = EmailSettings.SendEmail(email);
-                    if (flag)
-                    {
-                        // Check Your Inbox . 
-                        return RedirectToAction("CheckYourInbox");
-                    }
+                    // Send Email using the Old Way 
+                    //var flag = EmailSettings.SendEmail(email);
+                    //if (flag)
+                    //{
+                    //    // Check Your Inbox . 
+                    //    return RedirectToAction("CheckYourInbox");
+                    //}
+
+                    // Send Email Using the MailKit
+                    _mailService.SendEmail(email);
+                    return RedirectToAction("CheckYourInbox");
                 }
             }
             ModelState.AddModelError("", "Invalid Reset Password Operation :(");
@@ -204,6 +217,132 @@ namespace Company.Ali.PL.Controllers
                 ModelState.AddModelError("", "Invalid Reset Password Operation :)");
             }
             return View();
+        }
+        #endregion
+
+        #region AccessDenied
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+        #endregion
+
+        #region External Authentication [Google - Facebook]
+
+        public IActionResult GoogleLogin()
+        {
+            var prop = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            };
+            return Challenge(prop, GoogleDefaults.AuthenticationScheme);
+        }
+
+
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            if (!result.Succeeded)
+            {
+                result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+            }
+
+            var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
+            var email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var firstName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
+            var lastName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
+
+            if (string.IsNullOrEmpty(email))
+                return RedirectToAction("SignIn");
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                // Create user
+                user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    FirstName = firstName ?? "Google",
+                    LastName = lastName ?? "User",
+                    IsAgree = true // defaulted to true or ask in next step
+                };
+
+                var createResult = await _userManager.CreateAsync(user);
+                if (!createResult.Succeeded)
+                {
+                    TempData["Error"] = "Could not create account from Google";
+                    return RedirectToAction("SignIn");
+                }
+            }
+
+            // Sign in user
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+        //--------------------------------------------------------------------------
+
+        public IActionResult FacebookLogin()
+        {
+            var prop = new AuthenticationProperties()
+            {
+                RedirectUri = Url.Action("FacebookResponse")
+            };
+            return Challenge(prop, FacebookDefaults.AuthenticationScheme);
+        }
+
+        public async Task<IActionResult> FacebookResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(FacebookDefaults.AuthenticationScheme);
+
+            if (!result.Succeeded)
+            {
+                TempData["Error"] = "Facebook authentication failed.";
+                return RedirectToAction("SignIn");
+            }
+
+            var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
+            var email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var firstName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
+            var lastName = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                TempData["Error"] = "Your Facebook account does not have an accessible email. Please use a different login method.";
+                return RedirectToAction("SignIn");
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                // Create new user
+                user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    FirstName = firstName ?? "Facebook",
+                    LastName = lastName ?? "User",
+                    IsAgree = true // assuming consent for demo
+                };
+
+                var createResult = await _userManager.CreateAsync(user);
+                if (!createResult.Succeeded)
+                {
+                    TempData["Error"] = "Could not create account from Facebook.";
+                    return RedirectToAction("SignIn");
+                }
+            }
+
+            // Sign in the user
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return RedirectToAction("Index", "Home");
         }
         #endregion
     }
