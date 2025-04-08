@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+// Reset Password DTO
+using System.ComponentModel.DataAnnotations;
 
 namespace Company.Ali.PL.DTOs
 {
